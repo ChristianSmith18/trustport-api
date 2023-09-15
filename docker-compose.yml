@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  # nginx proxy
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - certs:/etc/nginx/certs
+      - vhost.d:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    labels:
+      - "com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy"
+
+  # letsencrypt for nginx-proxy
+  nginx-proxy-letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: nginx-proxy-letsencrypt
+    depends_on:
+      - nginx-proxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - certs:/etc/nginx/certs
+      - vhost.d:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+
+  # your nestjs application
+  nest-app:
+    image: your-nestjs-image
+    container_name: trustport-nest
+    expose:
+      - '80'
+    environment:
+      - VIRTUAL_HOST=api.trustport.cristian-gonzalez.dev
+      - LETSENCRYPT_HOST=api.trustport.cristian-gonzalez.dev
+      - LETSENCRYPT_EMAIL=cristian.gonzalez@c3l.io
+
+  # postgres configuration
+  postgres:
+    image: postgres:latest
+    container_name: trustport-postgres
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: trustport_db
+      POSTGRES_PASSWORD: trustport_db
+      POSTGRES_DB: trustport_db
+    volumes:
+      - postgres-data-trustport:/var/lib/postgresql/data
+
+volumes:
+  postgres-data-trustport:
+  certs:
+  vhost.d:
+  html:
