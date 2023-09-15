@@ -31,10 +31,8 @@ services:
 
   # your nestjs application
   nest-app:
-    image: your-nestjs-image
+    build: .
     container_name: trustport-nest
-    expose:
-      - '80'
     environment:
       - VIRTUAL_HOST=api.trustport.cristian-gonzalez.dev
       - LETSENCRYPT_HOST=api.trustport.cristian-gonzalez.dev
