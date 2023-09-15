@@ -20,7 +20,7 @@ COPY . .
 RUN npx nest build
 
 # Exponemos el puerto en el que tu aplicación corre (p.ej. 3000 si es el default de NestJS)
-EXPOSE 3000
+# EXPOSE 3000
 
 # Configuramos el comando para iniciar la aplicación en modo producción
 CMD ["node", "dist/main.js"]

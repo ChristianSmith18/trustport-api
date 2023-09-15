@@ -38,6 +38,8 @@ services:
       - LETSENCRYPT_HOST=api.trustport.cristian-gonzalez.dev
       - LETSENCRYPT_EMAIL=cristian.gonzalez@c3l.io
     restart: always
+    ports:
+      - '3000:3000'
 
   # postgres configuration
   postgres:
