@@ -1,5 +1,5 @@
 # Usamos una imagen oficial de Node.js
-FROM node:16-slim
+FROM node:20.5.0-slim
 
 # Creamos un directorio para la aplicación
 WORKDIR /usr/src/app
