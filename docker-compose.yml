@@ -20,8 +20,8 @@ services:
   certbot:
     image: certbot/certbot
     volumes:
-      - ./ssl-certs:/etc/letsencrypt/live
-      - ./ssl-private:/etc/letsencrypt/archive
+      - ./ssl-certs:/etc/ssl/certs
+      - ./ssl-private:/etc/ssl/private
       - ./certbot-www:/var/www/certbot:rw
     command: certonly --webroot --webroot-path=/var/www/certbot --email cristian.gonzalez@c3l.io -d api.trustport.cristian-gonzalez.dev --non-interactive --agree-tos --force-renewal
 
