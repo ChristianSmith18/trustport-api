@@ -8,6 +8,7 @@ services:
     ports:
       - '80:80'
       - '443:443'
+    restart: unless-stoped
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - ./ssl-certs:/etc/ssl/certs:ro
